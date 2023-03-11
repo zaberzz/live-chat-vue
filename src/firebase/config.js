@@ -26,6 +26,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { updateDoc, serverTimestamp } from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyCAYSBoZwdTGOdPjHw95c73cn7w-8U8qZs",
   authDomain: "vue-project-c623a.firebaseapp.com",
@@ -40,4 +41,10 @@ const app = initializeApp(firebaseConfig);
 const projectAuth = getAuth(app);
 const projectFirestore = getFirestore(app);
 
-export { projectAuth, projectFirestore };
+const docRef = doc(db, "objects", "some-id");
+
+// Update the timestamp field with the value from the server
+const updateTimestamp = await updateDoc(docRef, {
+  timestamp: serverTimestamp(),
+});
+export { projectAuth, projectFirestore, updateTimestamp };
